@@ -31,15 +31,26 @@ while True:
         name,lastid = string.split(account,',')
 
         # Let's grab everything up to the lastid
-        statuses = api.user_timeline(screen_name=name, since_id=lastid)
+        try:
+            statuses = api.user_timeline(screen_name=name, since_id=lastid)
+        except tweepy.RateLimitError:
+            # Wait 15mins then try again
+            print "Twitter Rate Limit Exceeded, waiting 15mins..."
+            time.sleep(900)
+            statuses = api.user_timeline(screen_name=name, since_id=lastid)
 
         statuses.reverse()
 
         for stat in statuses:
             try:
                 api.retweet(stat.id)
-            except:
-                print "Tweet " + str(stat.id) + " already retweeted!"
+            except tweepy.TweepError as err:
+                print "Error Tweeting! ".format(e.errno, e.strerror)
+            except tweepy.RateLimitError:
+                # Wait 15mins then try again
+                print "Twitter Rate Limit Exceeded, waiting 15mins..."
+                time.sleep(900)
+                api.retweet(stat.id)
 
             # Tweet every min
             time.sleep(60)
@@ -51,6 +62,3 @@ while True:
         except:
             pass
 
-        
-
-    time.sleep(900)
