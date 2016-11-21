@@ -44,7 +44,7 @@ while True:
         for stat in statuses:
             try:
                 api.retweet(stat.id)
-            except tweepy.TweepError as err:
+            except tweepy.TweepError as e:
                 print "Error Tweeting! ".format(e.errno, e.strerror)
             except tweepy.RateLimitError:
                 # Wait 15mins then try again
@@ -61,4 +61,7 @@ while True:
             subprocess.Popen("sed -i 's/^"+name+","+str(lastid).strip()+"/"+name+","+str(newlastid).strip()+"/g' "+argfile,shell=True)
         except:
             pass
+
+        # Adding in a small delay to keep from hammering the server
+        time.sleep(60)
 
