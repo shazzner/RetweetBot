@@ -37,7 +37,9 @@ for account in f:
 
     try:
         newlastid = statuses[-1].id
+
+        subprocess.Popen("sed -i 's/^"+name+","+str(lastid).strip()+"/"+name+","+str(newlastid).strip()+"/g' "+argfile,shell=True)
     except:
-        newlastid = lastid
+        pass
         
-    subprocess.Popen("sed -i 's/^"+name+","+str(lastid).strip()+"/"+name+","+str(newlastid).strip()+"/g' "+argfile,shell=True)
+    
