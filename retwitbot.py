@@ -46,7 +46,11 @@ while True:
 
         try:
             newlastid = statuses[-1].id
-        except:
-            newlastid = lastid
 
-        subprocess.Popen("sed -i 's/^"+name+","+str(lastid).strip()+"/"+name+","+str(newlastid).strip()+"/g' "+argfile,shell=True)
+            subprocess.Popen("sed -i 's/^"+name+","+str(lastid).strip()+"/"+name+","+str(newlastid).strip()+"/g' "+argfile,shell=True)
+        except:
+            pass
+
+        
+
+    time.sleep(900)
