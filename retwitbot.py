@@ -45,7 +45,7 @@ while True:
             try:
                 api.retweet(stat.id)
             except tweepy.TweepError as e:
-                print "Error Tweeting! ".format(e.errno, e.strerror)
+                print "Error Tweeting! "+str(e.message[0]['code'])
             except tweepy.RateLimitError:
                 # Wait 15mins then try again
                 print "Twitter Rate Limit Exceeded, waiting 15mins..."
